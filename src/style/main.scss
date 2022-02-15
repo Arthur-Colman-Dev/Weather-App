@@ -1,0 +1,19 @@
+@import "./colors.scss";
+
+html, body, #root {
+  margin: 0;
+}
+
+html, body, #root, .page {
+  height: 100%;
+  width: 100%;
+}
+
+.page {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: $gray200;
+}
+
+@import "./modal.scss";
