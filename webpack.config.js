@@ -1,20 +1,30 @@
 const path = require('path');
+const webpack = require('webpack')
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const Dotenv = require('dotenv-webpack');
 
 module.exports = {
+  mode: 'development',
+  devServer: {
+    historyApiFallback: true,
+    hot: true,
+    host: 'localhost',
+    port: 3000,
+  },
   entry: {
     main: path.resolve(__dirname, './src/index.js'),
   },
   output: {
     path: path.resolve(__dirname, './dist'),
     filename: '[name].bundle.js',
+    publicPath: '/',
   },
   module: {
     rules: [
       // JavaScript
       {
-        test: /\.js$/,
+        test: /\.(js|jsx)$/,
         exclude: /node_modules/,
         use: ['babel-loader'],
       },
@@ -37,9 +47,12 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'webpack Boilerplate',
-      filename: 'index.html', // output file
+      template: path.resolve(__dirname, './src/index.html'), // output file
     }),
     new CleanWebpackPlugin(),
+    new Dotenv({
+      path: path.resolve(__dirname, './.env')
+    }),
+    new webpack.HotModuleReplacementPlugin(),
   ],
 };

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import CityInput from './input';
+import CityInput from './input.jsx';
 
 const Modal = (props) => {
   return (

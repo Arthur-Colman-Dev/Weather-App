@@ -1,23 +1,29 @@
 import React, { useEffect, useState, useMemo } from 'react';
-import Geocoder from 'react-native-geocoding';
-
-Geocoder.init("AIzaSyDuQg3nYsLt3HZMydHj3skJVDT7wdhbgis", { language: 'pt-br'});
+import axios from 'axios';
 
 const CityInput = (props) => {
   const [ currentPosition, setCurrentPosition ] = useState();
+  const [ weatherInfo, setWeatherInfo ] = useState();
 
   useEffect(() => {
     if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(async ({ coords: { latitude, longitude }}) => setCurrentPosition(await Geocoder.from({
-        latitude,
-        longitude,
-      })))
+      navigator.geolocation.getCurrentPosition(async ({ coords: { latitude, longitude }}) => {
+        setCurrentPosition(await axios({
+          method: 'get',
+          url: `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${process.env.API_KEY}`
+        }));
+        setWeatherInfo(await axios({
+          method: 'get',
+          url: `http://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${process.env.API_KEY}`
+        }));
+      })
     }
-  }, [navigator.geolocation])
+  }, [])
 
-  console.log(currentPosition)
+  console.log('WEATHER INFO', weatherInfo);
+  console.log('CURRENT POSTION', currentPosition);
 
-  const currentCountry = useMemo(() => currentPosition ? currentPosition.results.slice(-1)[0]['formatted_address'] : 'Brasil')
+  const currentCountry = useMemo(() => currentPosition ? currentPosition.data[0].name : '', [currentPosition])
   
   return (
     <div>
