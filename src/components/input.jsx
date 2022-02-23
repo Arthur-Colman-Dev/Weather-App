@@ -35,7 +35,7 @@ const CityInput = (props) => {
         } = cityPosition.data[0]
         setWeatherInfo(await axios({
           method: 'get',
-          url: `http://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.API_KEY}`
+          url: `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=pt_br&units=metric&appid=${process.env.API_KEY}`
         }));
       }
     }
@@ -43,7 +43,7 @@ const CityInput = (props) => {
     if (!loading && currentCity) {
       getCityPosition()
     }
-  }, [loading, currentCity])
+  }, [loading, currentCity, setWeatherInfo])
   
   return (
     <div>
