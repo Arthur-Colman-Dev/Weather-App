@@ -46,8 +46,8 @@ const CityInput = (props) => {
   }, [loading, currentCity, setWeatherInfo])
   
   return (
-    <div>
-      <span>Sua Cidade</span>
+    <div className='city-input'>
+      <span className='city-input__label'>Sua Cidade</span>
       <Form.Control
         type='text'
         defaultValue={currentCity}

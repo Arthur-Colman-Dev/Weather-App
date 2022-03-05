@@ -7,6 +7,23 @@ const Modal = (props) => {
   const [ weatherInfo, setWeatherInfo ] = useState();
   const [ chart, setChart ] = useState();
 
+  const getDays = () => {
+    let days = [];
+    const currentDay = new Date().getDay();
+    const daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
+    for (let i = 0; i < 8; i++) {
+      if (currentDay + i < 8) {
+        days.push(daysOfWeek[(new Date().getDay() + i) - 1])
+      } else if (i === 7) {
+        days.push(daysOfWeek[new Date().getDay()])
+      } else {
+        days.push(daysOfWeek[(new Date().getDay() + i) - 7])
+      }
+    }
+
+    return days;
+  }
+
   useEffect(() => {
     if (weatherInfo) {
       if (!chart) {
@@ -14,25 +31,55 @@ const Modal = (props) => {
         setChart(new Chart(ctx, {
           type: 'line',
           data: {
-            labels: ['dia', 'dia', 'dia', 'dia', 'dia', 'dia', 'dia', 'dia'],
+            labels: getDays(),
             datasets: [{
               data: weatherInfo.data.daily.map((v) => Math.round(v.temp.day)),
               fill: {
                 target: 'origin',
                 above: 'rgba(0, 0, 255, 0.5)',
               },
-              pointStyle: 'line',
               tension: 0.4,
               borderJoinStyle: 'round',
             }]
           },
           options: {
+            elements: {
+              point: {
+                radius: 1,
+                backgroundColor: 'rgba(0, 0, 255, 0.5)'
+              }
+            },
+            layout: {
+              padding: 32
+            },
             scales: {
-                y: {
-                  suggestedMin: 15,
-                  suggestedMax: 40
+              y: {
+                ticks: {
+                  callback: (value, index, ticks) => `${value} °C`
+                },
+                suggestedMin: 15,
+                suggestedMax: 40,
+                grid: {
+                  display: false,
                 }
-            }
+              },
+              x: {
+                grid: {
+                  display: false,
+                }
+              }
+            },
+            plugins: {
+              legend: {
+                display: false
+              },
+              tooltip: {
+                displayColors: false,
+                callbacks: {
+                  label: (context) => `${context.raw} °C`
+                },
+              },
+            },
           }
         }));
       } else {
@@ -41,7 +88,7 @@ const Modal = (props) => {
       }
     }
       
-  }, [weatherInfo])
+  }, [weatherInfo, chart])
 
   console.log('WEATHER', weatherInfo)
   return (
