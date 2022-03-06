@@ -10,7 +10,7 @@ const Modal = (props) => {
   const getDays = () => {
     let days = [];
     const currentDay = new Date().getDay();
-    const daysOfWeek = ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab', 'Dom'];
+    const daysOfWeek = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sab'];
     for (let i = 0; i < 8; i++) {
       if (currentDay + i < 8) {
         days.push(daysOfWeek[(new Date().getDay() + i) - 1])
