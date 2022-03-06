@@ -1,11 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import CityInput from './input.jsx';
 import { Chart, registerables } from 'chart.js';
+import Spinner from 'react-bootstrap/Spinner';
+import classnames from 'classnames';
 Chart.register(...registerables);
 
 const Modal = (props) => {
   const [ weatherInfo, setWeatherInfo ] = useState();
   const [ chart, setChart ] = useState();
+  const [ loading, setLoading ] = useState(true);
+
+  const isMobile = (window.innerWidth < 768)
 
   const getDays = () => {
     let days = [];
@@ -25,6 +30,7 @@ const Modal = (props) => {
   }
 
   useEffect(() => {
+    setLoading(true);
     if (weatherInfo) {
       if (!chart) {
         const ctx = document.getElementById('myChart').getContext('2d');
@@ -82,19 +88,33 @@ const Modal = (props) => {
             },
           }
         }));
+        setLoading(false);
       } else {
         chart.data.datasets.forEach((i) => i.data =  weatherInfo.data.daily.map((v) => Math.round(v.temp.day)));
         chart.update();
+        setLoading(false);
       }
     }
-      
   }, [weatherInfo, chart])
 
-  console.log('WEATHER', weatherInfo)
+  console.log('loading', loading)
+
   return (
-    <div className='modal'>
+    <div className='page__modal'>
       <CityInput setWeatherInfo={setWeatherInfo} />
-      <canvas id="myChart" width="400" height="200"></canvas>
+      {
+        loading && (
+          <Spinner animation="border" />
+        )
+      }
+      <canvas
+        id="myChart"
+        width={isMobile ? `${window.innerWidth}px` : '400px'}
+        height={isMobile ? `${window.innerHeight - 46}px` : '200px'}
+        className={classnames(
+          {'hidden': loading},
+        )}
+      />
     </div>
   )
 }

@@ -4,7 +4,7 @@ import Form from 'react-bootstrap/Form';
 
 const CityInput = (props) => {
   const {
-    setWeatherInfo
+    setWeatherInfo,
   } = props;
 
   const [ currentCity, setCurrentCity ] = useState('');
@@ -54,7 +54,7 @@ const CityInput = (props) => {
         onChange={(v) => {
           setLoading(true);
           setCurrentCity(v.target.value);
-          setTimeout(() => setLoading(false), 3000);
+          setTimeout(() => setLoading(false), 2000);
         }}
       />
     </div>

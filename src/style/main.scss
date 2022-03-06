@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/bootstrap.scss";
 @import "./colors.scss";
 
 html, body, #root {
@@ -14,6 +15,10 @@ html, body, #root, .page {
   align-items: center;
   justify-content: center;
   background-color: $gray200;
+}
+
+.hidden {
+  visibility: hidden;
 }
 
 @import "./modal.scss";

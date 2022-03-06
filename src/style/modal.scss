@@ -1,4 +1,4 @@
-.modal {
+.page__modal {
   width: 50%;
   height: 60%;
   min-width: 700px;
@@ -8,4 +8,19 @@
   border-radius: 4px;
   box-shadow: 1px 1px 2px $turquoise4;
   border: 1px solid $blue4;
+}
+
+@media (max-width: 768px) {
+  .page__modal {
+    width: 100%;
+    height: 100%;
+
+    min-width: auto;
+    min-height: auto;
+  }
+}
+
+.spinner-border {
+  margin-left: 50%;
+  margin-top: 22%;
 }
