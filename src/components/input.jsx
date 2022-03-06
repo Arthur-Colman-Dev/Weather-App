@@ -15,7 +15,7 @@ const CityInput = (props) => {
       navigator.geolocation.getCurrentPosition(async ({ coords: { latitude, longitude }}) => {
         setCurrentCity((await axios({
           method: 'get',
-          url: `http://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${process.env.API_KEY}`
+          url: `https://api.openweathermap.org/geo/1.0/reverse?lat=${latitude}&lon=${longitude}&limit=5&appid=${process.env.API_KEY}`
         })).data[0].name);
       })
     }
@@ -25,7 +25,7 @@ const CityInput = (props) => {
     const getCityPosition = async () => {
       const cityPosition = await axios({
         method: 'get',
-        url: `http://api.openweathermap.org/geo/1.0/direct?q=${currentCity}&limit=5&appid=${process.env.API_KEY}`,
+        url: `https://api.openweathermap.org/geo/1.0/direct?q=${currentCity}&limit=5&appid=${process.env.API_KEY}`,
       });
 
       if (cityPosition && cityPosition.data) {
@@ -35,7 +35,7 @@ const CityInput = (props) => {
         } = cityPosition.data[0]
         setWeatherInfo(await axios({
           method: 'get',
-          url: `http://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=pt_br&units=metric&appid=${process.env.API_KEY}`
+          url: `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${lon}&lang=pt_br&units=metric&appid=${process.env.API_KEY}`
         }));
       }
     }
